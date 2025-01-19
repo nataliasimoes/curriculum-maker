@@ -1,0 +1,49 @@
+{
+  "languagesData": [
+    {
+      "code": "pt",
+      "flag": "/flags/pt.png",
+      "name": "Português"
+    },
+    {
+      "code": "en",
+      "flag": "/flags/en.png",
+      "name": "Inglês"
+    },
+    {
+      "code": "es",
+      "flag": "/flags/es.png",
+      "name": "Espanhol"
+    },
+    {
+      "code": "fr",
+      "flag": "/flags/fr.png",
+      "name": "Francês"
+    },
+    {
+      "code": "de",
+      "flag": "/flags/de.png",
+      "name": "Alemão"
+    },
+    {
+      "code": "it",
+      "flag": "/flags/it.png",
+      "name": "Italiano"
+    },
+    {
+      "code": "ja",
+      "flag": "/flags/ja.png",
+      "name": "Japonês"
+    },
+    {
+      "code": "zh",
+      "flag": "/flags/zh.png",
+      "name": "Chinês"
+    },
+    {
+      "code": "ru",
+      "flag": "/flags/ru.png",
+      "name": "Russo"
+    }
+  ]
+}
