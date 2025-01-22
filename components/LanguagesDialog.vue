@@ -42,6 +42,7 @@ function finished() {
     transition="dialog-bottom-transition"
     width="auto"
     v-model="dialogVisible"
+    persistent
   >
     <template v-slot:activator="{ props: activatorProps }">
       <v-btn
@@ -60,7 +61,7 @@ function finished() {
           <v-list>
             <v-list-item
               rounded="xl"
-              variant="plane"
+              variant="plain"
               v-for="item in languages"
               :key="item.code"
               :class="{ 'bg-primary-lighten-5': isLanguageAdded(item.name) }"

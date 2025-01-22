@@ -3,16 +3,20 @@ const languageStore = useLanguageStore();
 
 const { userLanguages } = storeToRefs(languageStore);
 
-const emit = defineEmits("next");
+const academicStore = useAcademicStore();
 
-function setNameAndNext() {
-  if (!nome.value) {
-    alert("Acho que você esqueceu de digitar seu nome");
-    return;
-  }
-  birthdayStore.setUserName(nome.value);
-  emit("next");
-}
+const { backgrounds } = storeToRefs(academicStore);
+
+// const emit = defineEmits("next");
+
+// function setNameAndNext() {
+//   if (!nome.value) {
+//     alert("Acho que você esqueceu de digitar seu nome");
+//     return;
+//   }
+//   birthdayStore.setUserName(nome.value);
+//   emit("next");
+// }
 </script>
 
 <template>
@@ -57,7 +61,7 @@ function setNameAndNext() {
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12">
+        <v-col cols="12" v-if="userLanguages.length > 0">
           <v-list density="compact">
             <v-list-item
               v-for="(item, i) in userLanguages"
@@ -72,6 +76,40 @@ function setNameAndNext() {
         </v-col>
         <v-col cols="12">
           <LanguagesDialog></LanguagesDialog>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <h4>Formação Acadêmica</h4>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" v-if="backgrounds.length > 0">
+          <v-list density="compact">
+            <v-list-item
+              v-for="(item, i) in backgrounds"
+              :key="i"
+              :value="item"
+              color="primary"
+            >
+              <v-list-item-title v-text="item.institution"></v-list-item-title>
+              <v-list-item-subtitle
+                >{{ item.description }} ({{ item.startYear }} -
+                {{ item.endYear }})</v-list-item-subtitle
+              >
+              <template v-slot:append>
+                <v-btn
+                  color="error"
+                  icon="mdi-minus"
+                  variant="text"
+                  @click="academicStore.removeAcademicBackground(i)"
+                ></v-btn
+              ></template>
+            </v-list-item>
+          </v-list>
+        </v-col>
+        <v-col cols="12">
+          <AcademicBackground></AcademicBackground>
         </v-col>
       </v-row>
     </v-form>
