@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const languageStore = useLanguageStore();
+const languageStore = useCurriculumStore();
 languageStore.setLanguages();
 const currentPage = ref(0);
 </script>

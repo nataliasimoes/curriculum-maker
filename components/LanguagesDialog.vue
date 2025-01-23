@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const languageStore = useLanguageStore();
+const languageStore = useCurriculumStore();
 
 const { languages, userLanguages } = storeToRefs(languageStore);
 

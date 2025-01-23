@@ -1,11 +1,8 @@
 <script setup lang="ts">
-const languageStore = useLanguageStore();
+const curriculumStore = useCurriculumStore();
 
-const { userLanguages } = storeToRefs(languageStore);
-
-const academicStore = useAcademicStore();
-
-const { backgrounds } = storeToRefs(academicStore);
+const { userLanguages, backgrounds, qualifications } =
+  storeToRefs(curriculumStore);
 
 // const emit = defineEmits("next");
 
@@ -102,7 +99,7 @@ const { backgrounds } = storeToRefs(academicStore);
                   color="error"
                   icon="mdi-minus"
                   variant="text"
-                  @click="academicStore.removeAcademicBackground(i)"
+                  @click="curriculumStore.removeAcademicBackground(i)"
                 ></v-btn
               ></template>
             </v-list-item>
@@ -110,6 +107,40 @@ const { backgrounds } = storeToRefs(academicStore);
         </v-col>
         <v-col cols="12">
           <AcademicBackground></AcademicBackground>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <h4>Capacitação Complementar</h4>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" v-if="qualifications.length > 0">
+          <v-list density="compact">
+            <v-list-item
+              v-for="(item, i) in qualifications"
+              :key="i"
+              :value="item"
+              color="primary"
+            >
+              <v-list-item-title v-text="item.institution"></v-list-item-title>
+              <v-list-item-subtitle
+                >{{ item.description }} ({{ item.startYear }} -
+                {{ item.endYear }})</v-list-item-subtitle
+              >
+              <template v-slot:append>
+                <v-btn
+                  color="error"
+                  icon="mdi-minus"
+                  variant="text"
+                  @click="curriculumStore.removeQualifications(i)"
+                ></v-btn
+              ></template>
+            </v-list-item>
+          </v-list>
+        </v-col>
+        <v-col cols="12">
+          <SupplementaryQualification></SupplementaryQualification>
         </v-col>
       </v-row>
     </v-form>

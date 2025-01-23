@@ -13,7 +13,7 @@ const item = ref<any>({
 });
 
 function addItem() {
-  academicStore.addAcademicBackground(item.value);
+  academicStore.addQualifications(item.value);
   item.value = {
     institution: "",
     description: "",
@@ -34,7 +34,7 @@ function addItem() {
     <template v-slot:activator="{ props: activatorProps }">
       <v-btn
         v-bind="activatorProps"
-        :text="'Adicionar formação'"
+        :text="'Adicionar capacitação'"
         block
         @click="dialogVisible = true"
       ></v-btn>
@@ -43,7 +43,7 @@ function addItem() {
     <template v-slot:default="{ isActive }">
       <v-card
         prepend-icon="mdi-school"
-        title="Formação Acadêmica"
+        title="Capacitação complementar"
         min-width="600"
       >
         <v-card-text>
@@ -51,7 +51,7 @@ function addItem() {
             <v-col cols="12">
               <v-text-field
                 v-model="item.institution"
-                label="Instituição"
+                label="Instituição ou plataforma"
                 required
                 variant="underlined"
               ></v-text-field>
