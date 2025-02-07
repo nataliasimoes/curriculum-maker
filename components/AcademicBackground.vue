@@ -54,6 +54,7 @@ function addItem() {
                 label="Instituição"
                 required
                 variant="underlined"
+                hint="Ex: IFRN, Escola Estadual João XXIII..."
               ></v-text-field>
             </v-col>
             <v-col cols="12">
@@ -62,6 +63,7 @@ function addItem() {
                 label="Descrição"
                 required
                 variant="underlined"
+                hint="Ex: Ensino superior, Ensino médio..."
               ></v-text-field>
             </v-col>
             <v-col

@@ -52,6 +52,22 @@ export const useCurriculumStore = defineStore("curriculum", () => {
     qualifications.value.splice(index, 1);
   }
 
+  /* skills */
+
+  interface Skill {
+    skill: string;
+  }
+
+  const skills = ref<Skill[]>([]);
+
+  function addSkill(skill: Skill) {
+    skills.value.push(skill);
+  }
+
+  function removeSkill(index: number) {
+    skills.value.splice(index, 1);
+  }
+
   return {
     backgrounds,
     addAcademicBackground,
@@ -62,5 +78,8 @@ export const useCurriculumStore = defineStore("curriculum", () => {
     qualifications,
     addQualifications,
     removeQualifications,
+    skills,
+    addSkill,
+    removeSkill,
   };
 });

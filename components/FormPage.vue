@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const curriculumStore = useCurriculumStore();
 
-const { userLanguages, backgrounds, qualifications } =
+const { userLanguages, backgrounds, qualifications, skills } =
   storeToRefs(curriculumStore);
 
 // const emit = defineEmits("next");
@@ -49,7 +49,11 @@ const { userLanguages, backgrounds, qualifications } =
           <v-text-field label="Endereço" variant="underlined"></v-text-field>
         </v-col>
         <v-col cols="12">
-          <v-textarea label="Sobre você" variant="underlined"></v-textarea>
+          <v-textarea
+            label="Sobre você"
+            variant="underlined"
+            hint="Descreva brevemente quem você é, suas principais habilidades e experiências profissionais."
+          ></v-textarea>
         </v-col>
       </v-row>
       <v-row>
@@ -141,6 +145,36 @@ const { userLanguages, backgrounds, qualifications } =
         </v-col>
         <v-col cols="12">
           <SupplementaryQualification></SupplementaryQualification>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <h4>Habilidades</h4>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" v-if="skills.length > 0">
+          <v-list density="compact">
+            <v-list-item
+              v-for="(item, i) in skills"
+              :key="i"
+              :value="item"
+              color="primary"
+            >
+              <v-list-item-title v-text="item.skill"></v-list-item-title>
+              <template v-slot:append>
+                <v-btn
+                  color="error"
+                  icon="mdi-minus"
+                  variant="text"
+                  @click="curriculumStore.removeSkill(i)"
+                ></v-btn
+              ></template>
+            </v-list-item>
+          </v-list>
+        </v-col>
+        <v-col cols="12">
+          <Skills></Skills>
         </v-col>
       </v-row>
     </v-form>

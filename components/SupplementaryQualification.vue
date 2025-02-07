@@ -52,6 +52,7 @@ function addItem() {
               <v-text-field
                 v-model="item.institution"
                 label="Instituição ou plataforma"
+                hint="Ex: Alura, SENAI, Udemy, Youtube..."
                 required
                 variant="underlined"
               ></v-text-field>
@@ -62,6 +63,7 @@ function addItem() {
                 label="Descrição"
                 required
                 variant="underlined"
+                hint="Ex: Curso de marketing digital, Curso de design..."
               ></v-text-field>
             </v-col>
             <v-col
