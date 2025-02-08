@@ -50,6 +50,7 @@ function finished() {
         :text="
           userLanguages.length > 0 ? 'Editar idiomas' : 'Adicionar idiomas'
         "
+        class="btn-green-text"
         block
         @click="dialogVisible = true"
       ></v-btn>
@@ -112,6 +113,13 @@ function finished() {
           </v-list>
         </v-card-text>
         <template v-slot:actions>
+          <v-btn
+            class="ml-auto"
+            color="gray"
+            text="Fechar"
+            @click="dialogVisible = false"
+          ></v-btn>
+          <v-spacer></v-spacer>
           <v-btn
             class="ml-auto"
             color="green"

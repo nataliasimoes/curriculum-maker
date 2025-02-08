@@ -1,12 +1,5 @@
 import languagesData from "../data-language/languages.json";
 export const useCurriculumStore = defineStore("curriculum", () => {
-  interface AcademicBackground {
-    institution: string;
-    description: string;
-    startYear: string;
-    endYear?: string;
-  }
-
   const backgrounds = ref<AcademicBackground[]>([]);
 
   function addAcademicBackground(background: AcademicBackground) {
@@ -19,28 +12,15 @@ export const useCurriculumStore = defineStore("curriculum", () => {
 
   /* language */
 
-  interface Language {
-    code: string;
-    flag: string;
-    name: string;
-  }
-
   const languages = ref<Language[]>([]);
 
-  const userLanguages = ref<any[]>([]);
+  const userLanguages = ref<UserLanguage[]>([]);
 
   function setLanguages() {
     languages.value = languagesData.languagesData;
   }
 
   /* qualification */
-
-  interface Qualification {
-    institution: string;
-    description: string;
-    startYear: string;
-    endYear?: string;
-  }
 
   const qualifications = ref<Qualification[]>([]);
 
@@ -54,10 +34,6 @@ export const useCurriculumStore = defineStore("curriculum", () => {
 
   /* skills */
 
-  interface Skill {
-    skill: string;
-  }
-
   const skills = ref<Skill[]>([]);
 
   function addSkill(skill: Skill) {
@@ -66,6 +42,18 @@ export const useCurriculumStore = defineStore("curriculum", () => {
 
   function removeSkill(index: number) {
     skills.value.splice(index, 1);
+  }
+
+  /* experiences */
+
+  const experiences = ref<Experience[]>([]);
+
+  function addExperience(experience: Experience) {
+    experiences.value.push(experience);
+  }
+
+  function removeExperience(index: number) {
+    experiences.value.splice(index, 1);
   }
 
   return {
@@ -81,5 +69,8 @@ export const useCurriculumStore = defineStore("curriculum", () => {
     skills,
     addSkill,
     removeSkill,
+    experiences,
+    addExperience,
+    removeExperience,
   };
 });

@@ -36,6 +36,7 @@ function addItem() {
         v-bind="activatorProps"
         :text="'Adicionar capacitação'"
         block
+        class="btn-green-text"
         @click="dialogVisible = true"
       ></v-btn>
     </template>
@@ -55,6 +56,7 @@ function addItem() {
                 hint="Ex: Alura, SENAI, Udemy, Youtube..."
                 required
                 variant="underlined"
+                color="green"
               ></v-text-field>
             </v-col>
             <v-col cols="12">
@@ -64,6 +66,7 @@ function addItem() {
                 required
                 variant="underlined"
                 hint="Ex: Curso de marketing digital, Curso de design..."
+                color="green"
               ></v-text-field>
             </v-col>
             <v-col
@@ -72,6 +75,7 @@ function addItem() {
                 label="Ano de início"
                 required
                 variant="underlined"
+                color="green"
               ></v-text-field>
             </v-col>
             <v-col
@@ -79,6 +83,7 @@ function addItem() {
                 v-model="item.endYear"
                 label="Ano de conclusão"
                 variant="underlined"
+                color="green"
               ></v-text-field
             ></v-col>
           </v-row>

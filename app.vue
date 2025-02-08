@@ -19,7 +19,7 @@
   height: 100vh;
 }
 
-.background-image {
+/* .background-image {
   position: absolute;
   top: 0;
   left: 0;
@@ -29,10 +29,14 @@
   background-repeat: initial;
   opacity: 0.2;
   z-index: 1;
-}
+} */
 
 .content {
   position: relative;
   z-index: 2;
+}
+
+::v-deep(.btn-green-text .v-btn__content) {
+  color: #4caf50; /* Muda a cor do texto */
 }
 </style>

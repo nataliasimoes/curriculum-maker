@@ -4,13 +4,17 @@ const academicStore = useCurriculumStore();
 const dialogVisible = ref(false);
 
 const item = ref<any>({
-  skill: "",
+  institution: "",
+  function: "",
+  period: "",
 });
 
 function addItem() {
-  academicStore.addSkill(item.value);
+  academicStore.addExperience(item.value);
   item.value = {
-    skill: "",
+    institution: "",
+    function: "",
+    period: "",
   };
   dialogVisible.value = false;
 }
@@ -26,7 +30,7 @@ function addItem() {
     <template v-slot:activator="{ props: activatorProps }">
       <v-btn
         v-bind="activatorProps"
-        :text="'Adicionar Habilidade'"
+        :text="'Adicionar Experiência'"
         block
         class="btn-green-text"
         @click="dialogVisible = true"
@@ -34,16 +38,40 @@ function addItem() {
     </template>
 
     <template v-slot:default="{ isActive }">
-      <v-card prepend-icon="mdi-medal" title="Habilidade(s)" min-width="600">
+      <v-card
+        prepend-icon="mdi-account-star"
+        title="Experiência"
+        min-width="600"
+      >
         <v-card-text>
           <v-row>
             <v-col cols="12">
               <v-text-field
-                v-model="item.skill"
-                label="Habilidade"
+                v-model="item.institution"
+                label="Instituição"
                 required
-                hint="Ex: CNH, Boa comunicação, Desenvolvimento BackEnd com Node.js..."
                 variant="underlined"
+                hint="Ex: Prefeitura Municipal de Acari, Loja do Real, QFome..."
+                color="green"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                v-model="item.function"
+                label="Cargo/Função"
+                required
+                variant="underlined"
+                hint="Ex: Estágiaria de TI, Pintor, Entregador, Professora..."
+                color="green"
+              ></v-text-field>
+            </v-col>
+            <v-col
+              ><v-text-field
+                v-model="item.period"
+                label="Período na função"
+                required
+                variant="underlined"
+                hint="5 meses, 2 anos, 3 semanas..."
                 color="green"
               ></v-text-field>
             </v-col>

@@ -37,6 +37,7 @@ function addItem() {
         :text="'Adicionar formação'"
         block
         @click="dialogVisible = true"
+        class="btn-green-text"
       ></v-btn>
     </template>
 
@@ -55,6 +56,7 @@ function addItem() {
                 required
                 variant="underlined"
                 hint="Ex: IFRN, Escola Estadual João XXIII..."
+                color="green"
               ></v-text-field>
             </v-col>
             <v-col cols="12">
@@ -64,6 +66,7 @@ function addItem() {
                 required
                 variant="underlined"
                 hint="Ex: Ensino superior, Ensino médio..."
+                color="green"
               ></v-text-field>
             </v-col>
             <v-col
@@ -72,6 +75,7 @@ function addItem() {
                 label="Ano de início"
                 required
                 variant="underlined"
+                color="green"
               ></v-text-field>
             </v-col>
             <v-col
@@ -79,6 +83,7 @@ function addItem() {
                 v-model="item.endYear"
                 label="Ano de conclusão"
                 variant="underlined"
+                color="green"
               ></v-text-field
             ></v-col>
           </v-row>
