@@ -1,18 +1,65 @@
 <script setup lang="ts">
+import { useForm } from "vee-validate";
+import { z } from "zod";
+import { toTypedSchema } from "@vee-validate/zod";
+
+const schema = toTypedSchema(
+  z.object({
+    name: z.string().min(1, "O nome é obrigatório"),
+    age: z.number().min(16, "Idade inválida").max(100, "Idade inválida"),
+    email: z.string().email("E-mail inválido"),
+    phone: z.string().min(11, "Telefone inválido"),
+    address: z.string().min(1, "O endereço é obrigatório"),
+    summary: z
+      .string()
+      .min(1, "O resumo é obrigatório")
+      .max(350, "Máximo de 350 caracteres"),
+    image: z
+      .instanceof(File)
+      .refine(
+        (file) => file.size <= 5 * 1024 * 1024,
+        "A imagem deve ter no máximo 5MB"
+      )
+      .refine(
+        (file) => file.type === "image/png" || file.type === "image/jpeg",
+        "A imagem deve ser PNG ou JPG"
+      )
+      .optional(),
+  })
+);
+
+const { handleSubmit, errors } = useForm({
+  validationSchema: schema,
+});
+
 const curriculumStore = useCurriculumStore();
 
 const { userLanguages, backgrounds, qualifications, skills, experiences } =
   storeToRefs(curriculumStore);
 
-const name = ref("");
-const age = ref(0);
-const email = ref("");
-const phone = ref("");
-const address = ref("");
-const summary = ref("");
+const { value: name } = useField<string>("name");
+const { value: age } = useField<number>("age");
+const { value: email } = useField<string>("email");
+const { value: phone } = useField<string>("phone");
+const { value: address } = useField<string>("address");
+const { value: summary } = useField<string>("summary");
+const { value: image } = useField<File>("image");
+
+watch(age, (newValue) => {
+  age.value = newValue ? Number(newValue) : null;
+});
+
+name.value = "Francisca Natália Simões de Araújo";
+age.value = 16;
+email.value = "natalia.simoes.dev@gmail.com";
+phone.value = "84998998012";
+address.value = "Rua José Valentim de Melo, 578";
+summary.value =
+  "Sou um profissional comprometido, dedicado e sempre focado na segurança e no cumprimento das normas. Tenho facilidade para trabalhar em equipe, me adapto bem a diferentes condições de trabalho e estou sempre disposto a aprender e evoluir. Procuro contribuir para a eficiência das operações.";
 
 const resumeData = ref({
   name: name.value,
+  image: image.value,
   age: age.value,
   email: email.value,
   phone: phone.value,
@@ -28,6 +75,7 @@ const resumeData = ref({
 watchEffect(() => {
   resumeData.value = {
     name: name.value,
+    image: image.value,
     age: age.value,
     email: email.value,
     phone: phone.value,
@@ -42,34 +90,70 @@ watchEffect(() => {
 });
 
 const resumeStore = useResumeStore();
+
+const onSubmit = handleSubmit((values) => {
+  console.log(values);
+  resumeStore.generateResumePDF(resumeData.value);
+});
+
+const handleFileUpload = async () => {
+  const file = image.value; // Obtém o arquivo selecionado
+
+  console.log("Arquivo recebido:", file);
+
+  if (file && ["image/png", "image/jpeg"].includes(file.type)) {
+    const arrayBuffer = await file.arrayBuffer(); // Converte o arquivo para ArrayBuffer
+    const uint8Array = new Uint8Array(arrayBuffer); // Converte para Uint8Array
+    resumeData.value.image = uint8Array; // Atualiza o resumeData com a imagem
+    console.log("Imagem carregada com sucesso!");
+  } else {
+    resumeData.value.image = null; // Remove a imagem se o arquivo for inválido
+    console.warn("Arquivo inválido. Selecione uma imagem PNG ou JPEG.");
+  }
+};
 </script>
 
 <template>
   <div>
-    <v-form>
+    <v-form @submit.prevent="onSubmit">
       <v-row>
         <v-col cols="12">
           <h4>Dados Gerais</h4>
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12">
+        <v-col cols="12" sm="12" md="7">
           <v-text-field
             label="Nome"
             variant="underlined"
-            :rules="[rules.required]"
             color="green"
             v-model="name"
+            :error-messages="errors.name"
           ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="12" md="5">
+          <v-file-input
+            accept="image/png, image/jpeg"
+            label="Avatar (Opcional)"
+            placeholder="Pick an avatar"
+            variant="underlined"
+            v-model="image"
+            @change="handleFileUpload"
+            prepend-icon=""
+          >
+            <template v-slot:prepend-inner>
+              <v-icon color="green">mdi-camera</v-icon>
+            </template>
+          </v-file-input>
         </v-col>
         <v-col cols="12" md="3">
           <v-text-field
             label="Idade"
             variant="underlined"
             type="number"
-            :rules="[rules.required]"
             color="green"
             v-model="age"
+            :error-messages="errors.age"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="9">
@@ -79,15 +163,16 @@ const resumeStore = useResumeStore();
             type="email"
             color="green"
             v-model="email"
+            :error-messages="errors.email"
           ></v-text-field>
         </v-col>
         <v-col cols="12">
           <v-text-field
             label="Telefone"
             variant="underlined"
-            :rules="[rules.required]"
             color="green"
             v-model="phone"
+            :error-messages="errors.phone"
           ></v-text-field>
         </v-col>
         <v-col cols="12">
@@ -96,6 +181,7 @@ const resumeStore = useResumeStore();
             variant="underlined"
             color="green"
             v-model="address"
+            :error-messages="errors.address"
           ></v-text-field>
         </v-col>
         <v-col cols="12">
@@ -103,17 +189,17 @@ const resumeStore = useResumeStore();
             label="Sobre você"
             variant="underlined"
             hint="Descreva brevemente quem você é, suas principais habilidades e experiências profissionais."
-            :rules="[rules.required]"
             persistent-hint
             color="green"
-            counter="250"
+            counter="350"
             v-model="summary"
+            :error-messages="errors.summary"
           ></v-textarea>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12">
-          <h4>Idiomas</h4>
+          <h4>Idiomas (Opcional)</h4>
         </v-col>
       </v-row>
       <v-row>
@@ -184,8 +270,9 @@ const resumeStore = useResumeStore();
             >
               <v-list-item-title v-text="item.institution"></v-list-item-title>
               <v-list-item-subtitle
-                >{{ item.description }} ({{ item.startYear }} -
-                {{ item.endYear }})</v-list-item-subtitle
+                >{{ item.description }} ({{
+                  item.workload
+                }})</v-list-item-subtitle
               >
               <template v-slot:append>
                 <v-btn
@@ -267,12 +354,7 @@ const resumeStore = useResumeStore();
       </v-row>
       <v-row class="mt-5">
         <v-col cols="12">
-          <v-btn
-            color="green"
-            block
-            @click="resumeStore.generateResumePDF(resumeData)"
-            >Gerar currículo</v-btn
-          >
+          <v-btn color="green" block type="submit">Gerar currículo</v-btn>
         </v-col>
       </v-row>
     </v-form>

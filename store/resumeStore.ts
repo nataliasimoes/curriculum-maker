@@ -5,6 +5,7 @@ import download from "downloadjs";
 export const useResumeStore = defineStore("resume", () => {
   const generateResumePDF = async (resumeData: {
     name: string;
+    image: any;
     phone: string;
     age: number;
     email: string;
@@ -17,14 +18,31 @@ export const useResumeStore = defineStore("resume", () => {
     experiences: Experience[];
   }) => {
     const pdfDoc = await PDFDocument.create();
-    const page = pdfDoc.addPage([550, 750]);
-
-    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-    const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    let page = pdfDoc.addPage([595.28, 841.89]);
+    const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+    const boldFont = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
     const fontSize = 12;
     const margin = 50;
     const maxWidth = page.getWidth() - 2 * margin;
     let y = page.getHeight() - margin;
+
+    const heightOfText = (text: string, fontSize: number, maxWidth: number) => {
+      const words = text.split(" ");
+      let lines = 1;
+      let currentLineLength = 0;
+
+      words.forEach((word) => {
+        const wordWidth = word.length * (fontSize * 0.6);
+        if (currentLineLength + wordWidth > maxWidth) {
+          lines++;
+          currentLineLength = wordWidth;
+        } else {
+          currentLineLength += wordWidth;
+        }
+      });
+
+      return lines * fontSize * 1.2;
+    };
 
     const addText = (
       text: string,
@@ -46,7 +64,6 @@ export const useResumeStore = defineStore("resume", () => {
       });
     };
 
-    // Função para adicionar uma linha horizontal
     const addLine = (y: number) => {
       page.drawLine({
         start: { x: margin, y },
@@ -56,10 +73,57 @@ export const useResumeStore = defineStore("resume", () => {
       });
     };
 
-    // Adiciona o título (Nome)
+    const checkForNewPage = (requiredSpace: number) => {
+      if (y - requiredSpace < margin) {
+        // Cria uma nova página
+        page = pdfDoc.addPage([595.28, 841.89]);
+        y = page.getHeight() - margin;
+      }
+    };
+
+    if (resumeData.image) {
+      let image;
+      try {
+        image = await pdfDoc.embedPng(resumeData.image);
+      } catch {
+        image = await pdfDoc.embedJpg(resumeData.image);
+      }
+
+      // 🖼️ Definir tamanho fixo para a imagem
+      const imageWidth = 110; // Largura fixa da imagem
+      const imageHeight = 120; // Altura fixa para manter proporção
+
+      // 📍 Ajustar a posição para ficar ao lado do título
+      const imageX = page.getWidth() - imageWidth - margin; // Alinha à direita
+      const imageY = y - imageHeight + 10; // Mantém na altura do título
+
+      page.drawImage(image, {
+        x: imageX,
+        y: imageY,
+        width: imageWidth,
+        height: imageHeight,
+      });
+      // Ajusta a posição do próximo conteúdo
+    }
+
+    checkForNewPage(30);
     addText(resumeData.name, margin, y, 24, boldFont, rgb(0, 0, 0), maxWidth);
     y -= 30;
 
+    // Adiciona informações de contato
+    checkForNewPage(20);
+    addText(
+      `Idade: ${resumeData.age}`,
+      margin,
+      y,
+      fontSize,
+      font,
+      rgb(0, 0, 0),
+      maxWidth
+    );
+    y -= 20;
+
+    checkForNewPage(20);
     addText(
       `Email: ${resumeData.email}`,
       margin,
@@ -70,6 +134,8 @@ export const useResumeStore = defineStore("resume", () => {
       maxWidth
     );
     y -= 20;
+
+    checkForNewPage(20);
     addText(
       `Telefone: ${resumeData.phone}`,
       margin,
@@ -80,6 +146,8 @@ export const useResumeStore = defineStore("resume", () => {
       maxWidth
     );
     y -= 20;
+
+    checkForNewPage(20);
     addText(
       `Endereço: ${resumeData.address}`,
       margin,
@@ -92,12 +160,19 @@ export const useResumeStore = defineStore("resume", () => {
     y -= 30;
 
     // Adiciona a linha divisória
+    checkForNewPage(20);
     addLine(y);
     y -= 20;
 
     // Adiciona a seção "Resumo"
+    checkForNewPage(30);
     addText("Sobre mim", margin, y, 18, boldFont, rgb(0, 0, 0), maxWidth);
-    y -= 20;
+    y -= 30;
+
+    // Calcula a altura do texto do resumo
+    const summaryHeight = heightOfText(resumeData.summary, fontSize, maxWidth);
+    checkForNewPage(summaryHeight); // Verifica se há espaço para o resumo
+
     addText(
       resumeData.summary,
       margin,
@@ -107,13 +182,13 @@ export const useResumeStore = defineStore("resume", () => {
       rgb(0, 0, 0),
       maxWidth
     );
-    y -= 60;
+    y -= summaryHeight;
 
-    // Adiciona a linha divisória
+    checkForNewPage(20);
     addLine(y);
     y -= 20;
 
-    // Adiciona a seção "Experiência profissional"
+    checkForNewPage(30);
     addText(
       "Experiência profissional",
       margin,
@@ -123,9 +198,10 @@ export const useResumeStore = defineStore("resume", () => {
       rgb(0, 0, 0),
       maxWidth
     );
-    y -= 20;
+    y -= 30;
 
     resumeData.experiences.forEach((exp) => {
+      checkForNewPage(45);
       addText(
         `${exp.institution} | ${exp.period}`,
         margin,
@@ -145,12 +221,15 @@ export const useResumeStore = defineStore("resume", () => {
         rgb(0, 0, 0),
         maxWidth
       );
-      y -= 15;
+      y -= 30;
     });
 
+    // Adiciona a linha divisória
+    checkForNewPage(20);
     addLine(y);
     y -= 20;
 
+    checkForNewPage(30);
     addText(
       "Formação acadêmica",
       margin,
@@ -160,9 +239,10 @@ export const useResumeStore = defineStore("resume", () => {
       rgb(0, 0, 0),
       maxWidth
     );
-    y -= 20;
+    y -= 30;
 
     resumeData.backgrounds.forEach((bkg) => {
+      checkForNewPage(45);
       addText(
         `${bkg.institution} (${bkg.startYear} - ${bkg.endYear})`,
         margin,
@@ -185,11 +265,51 @@ export const useResumeStore = defineStore("resume", () => {
       y -= 30;
     });
 
-    // Adiciona a linha divisória
+    checkForNewPage(20);
     addLine(y);
     y -= 20;
 
-    // Adiciona a seção "Habilidades e competências"
+    checkForNewPage(30);
+    addText(
+      "Capacitação Complementar",
+      margin,
+      y,
+      18,
+      boldFont,
+      rgb(0, 0, 0),
+      maxWidth
+    );
+    y -= 30;
+
+    resumeData.qualifications.forEach((bkg) => {
+      checkForNewPage(45);
+      addText(
+        `${bkg.institution} (${bkg.workload})`,
+        margin,
+        y,
+        fontSize,
+        boldFont,
+        rgb(0, 0, 0),
+        maxWidth
+      );
+      y -= 15;
+      addText(
+        `${bkg.description}`,
+        margin,
+        y,
+        fontSize,
+        font,
+        rgb(0, 0, 0),
+        maxWidth
+      );
+      y -= 30;
+    });
+
+    checkForNewPage(20);
+    addLine(y);
+    y -= 20;
+
+    checkForNewPage(30);
     addText(
       "Habilidades e competências",
       margin,
@@ -199,9 +319,10 @@ export const useResumeStore = defineStore("resume", () => {
       rgb(0, 0, 0),
       maxWidth
     );
-    y -= 20;
+    y -= 30;
 
     resumeData.skills.forEach((skill) => {
+      checkForNewPage(20);
       addText(
         `- ${skill.skill}`,
         margin,
@@ -211,8 +332,35 @@ export const useResumeStore = defineStore("resume", () => {
         rgb(0, 0, 0),
         maxWidth
       );
-      y -= 15;
+      y -= 20;
     });
+
+    checkForNewPage(20);
+    addLine(y);
+    y -= 20;
+
+    if (resumeData.languages && resumeData.languages.length > 0) {
+      checkForNewPage(30);
+      addText("Idiomas", margin, y, 18, boldFont, rgb(0, 0, 0), maxWidth);
+      y -= 30;
+
+      resumeData.languages.forEach((lang) => {
+        checkForNewPage(20);
+        addText(
+          `- ${lang.name}: ${lang.level}`,
+          margin,
+          y,
+          fontSize,
+          font,
+          rgb(0, 0, 0),
+          maxWidth
+        );
+        y -= 20;
+      });
+
+      checkForNewPage(20);
+      y -= 20;
+    }
 
     const pdfBytes = await pdfDoc.save();
 

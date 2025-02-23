@@ -19,8 +19,7 @@ interface UserLanguage {
 interface Qualification {
   institution: string;
   description: string;
-  startYear: string;
-  endYear?: string;
+  workload: string;
 }
 
 interface Skill {

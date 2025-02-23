@@ -8,8 +8,7 @@ const emit = defineEmits(["add"]);
 const item = ref<any>({
   institution: "",
   description: "",
-  startYear: "",
-  endYear: "",
+  workload: "",
 });
 
 function addItem() {
@@ -17,8 +16,7 @@ function addItem() {
   item.value = {
     institution: "",
     description: "",
-    startYear: "",
-    endYear: "",
+    workload: "",
   };
   dialogVisible.value = false;
 }
@@ -71,21 +69,14 @@ function addItem() {
             </v-col>
             <v-col
               ><v-text-field
-                v-model="item.startYear"
-                label="Ano de início"
+                v-model="item.workload"
+                label="Carga horária"
                 required
                 variant="underlined"
+                hint="Ex: 60 horas"
                 color="green"
               ></v-text-field>
             </v-col>
-            <v-col
-              ><v-text-field
-                v-model="item.endYear"
-                label="Ano de conclusão"
-                variant="underlined"
-                color="green"
-              ></v-text-field
-            ></v-col>
           </v-row>
         </v-card-text>
         <template v-slot:actions>

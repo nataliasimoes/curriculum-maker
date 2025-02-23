@@ -12,13 +12,21 @@
   "dependencies": {
     "@nuxtjs/google-fonts": "^3.2.0",
     "@pinia/nuxt": "^0.9.0",
+    "@vee-validate/nuxt": "^4.15.0",
+    "@vee-validate/zod": "^4.15.0",
     "downloadjs": "^1.4.7",
     "nuxt": "^3.14.1592",
     "pdf-lib": "^1.17.1",
     "pinia": "^2.3.0",
+    "vee-validate": "^4.15.0",
     "vue": "latest",
     "vue-router": "latest",
     "vuetify": "^3.7.5",
-    "vuetify-nuxt-module": "^0.18.3"
+    "vuetify-nuxt-module": "^0.18.3",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@vueuse/core": "^12.7.0",
+    "@vueuse/nuxt": "^12.7.0"
   }
 }
