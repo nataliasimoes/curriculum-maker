@@ -1,23 +1,42 @@
 <script lang="ts" setup>
+import { useForm } from "vee-validate";
+import { z } from "zod";
+import { toTypedSchema } from "@vee-validate/zod";
+
+const schema = toTypedSchema(
+  z.object({
+    item: z.object({
+      institution: z.string({ required_error: "Obrigatório" }),
+      function: z.string({ required_error: "Obrigatório" }),
+      period: z.string({ required_error: "Obrigatório" }),
+    }),
+  })
+);
+
+const { handleSubmit, errors } = useForm({
+  validationSchema: schema,
+});
+
+const { value: institution } = useField<string>("item.institution");
+const { value: itemFunction } = useField<string>("item.function");
+const { value: period } = useField<string>("item.period");
+
 const academicStore = useCurriculumStore();
 
 const dialogVisible = ref(false);
 
-const item = ref<any>({
-  institution: "",
-  function: "",
-  period: "",
-});
-
-function addItem() {
-  academicStore.addExperience(item.value);
-  item.value = {
-    institution: "",
-    function: "",
-    period: "",
+const addItem = handleSubmit((values) => {
+  const newItem = {
+    institution: values.item.institution,
+    function: values.item.function,
+    period: values.item.period,
   };
+  academicStore.addExperience(newItem);
+  institution.value = "";
+  itemFunction.value = "";
+  period.value = "";
   dialogVisible.value = false;
-}
+});
 </script>
 
 <template>
@@ -38,61 +57,66 @@ function addItem() {
     </template>
 
     <template v-slot:default="{ isActive }">
-      <v-card
-        prepend-icon="mdi-account-star"
-        title="Experiência"
-        min-width="600"
-      >
-        <v-card-text>
-          <v-row>
-            <v-col cols="12">
-              <v-text-field
-                v-model="item.institution"
-                label="Instituição"
-                required
-                variant="underlined"
-                hint="Ex: Prefeitura Municipal de Acari, Loja do Real, QFome..."
-                color="green"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                v-model="item.function"
-                label="Cargo/Função"
-                required
-                variant="underlined"
-                hint="Ex: Estágiaria de TI, Pintor, Entregador, Professora..."
-                color="green"
-              ></v-text-field>
-            </v-col>
-            <v-col
-              ><v-text-field
-                v-model="item.period"
-                label="Período na função"
-                required
-                variant="underlined"
-                hint="5 meses, 2 anos, 3 semanas..."
-                color="green"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-        </v-card-text>
-        <template v-slot:actions>
-          <v-btn
-            class="ml-auto"
-            color="gray"
-            text="Fechar"
-            @click="dialogVisible = false"
-          ></v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            class="ml-auto"
-            color="green"
-            text="Adicionar Item"
-            @click="addItem()"
-          ></v-btn>
-        </template>
-      </v-card>
+      <v-form>
+        <v-card
+          prepend-icon="mdi-account-star"
+          title="Experiência"
+          min-width="600"
+        >
+          <v-card-text>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="institution"
+                  label="Instituição"
+                  required
+                  variant="underlined"
+                  hint="Ex: Prefeitura Municipal de Acari, Loja do Real, QFome..."
+                  color="green"
+                  :error-messages="errors['item.institution']"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="itemFunction"
+                  label="Cargo/Função"
+                  required
+                  variant="underlined"
+                  hint="Ex: Estágiaria de TI, Pintor, Entregador, Professora..."
+                  color="green"
+                  :error-messages="errors['item.function']"
+                ></v-text-field>
+              </v-col>
+              <v-col
+                ><v-text-field
+                  v-model="period"
+                  label="Período na função"
+                  required
+                  variant="underlined"
+                  hint="5 meses, 2 anos, 3 semanas..."
+                  color="green"
+                  :error-messages="errors['item.period']"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-card-text>
+          <template v-slot:actions>
+            <v-btn
+              class="ml-auto"
+              color="gray"
+              text="Fechar"
+              @click="dialogVisible = false"
+            ></v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              class="ml-auto"
+              color="green"
+              text="Adicionar Item"
+              @click="addItem()"
+            ></v-btn>
+          </template>
+        </v-card>
+      </v-form>
     </template>
   </v-dialog>
 </template>

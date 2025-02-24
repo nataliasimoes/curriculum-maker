@@ -1,25 +1,45 @@
 <script lang="ts" setup>
-const academicStore = useCurriculumStore();
+import { useForm } from "vee-validate";
+import { z } from "zod";
+import { toTypedSchema } from "@vee-validate/zod";
 
+const schema = toTypedSchema(
+  z.object({
+    item: z.object({
+      institution: z.string({ required_error: "Obrigatório" }),
+      description: z.string({ required_error: "Obrigatório" }),
+      workload: z.string({ required_error: "Obrigatório" }),
+    }),
+  })
+);
+
+const { handleSubmit, errors } = useForm({
+  validationSchema: schema,
+});
+
+const { value: institution } = useField<string>("item.institution");
+const { value: description } = useField<string>("item.description");
+const { value: workload } = useField<string>("item.workload");
+
+const academicStore = useCurriculumStore();
 const dialogVisible = ref(false);
 
 const emit = defineEmits(["add"]);
 
-const item = ref<any>({
-  institution: "",
-  description: "",
-  workload: "",
-});
-
-function addItem() {
-  academicStore.addQualifications(item.value);
-  item.value = {
-    institution: "",
-    description: "",
-    workload: "",
+const addItem = handleSubmit((values) => {
+  const newItem = {
+    institution: values.item.institution,
+    description: values.item.description,
+    workload: values.item.workload,
   };
+  academicStore.addQualifications(newItem);
+
+  institution.value = values.item.institution;
+  description.value = values.item.description;
+  workload.value = values.item.workload;
+
   dialogVisible.value = false;
-}
+});
 </script>
 
 <template>
@@ -49,32 +69,35 @@ function addItem() {
           <v-row>
             <v-col cols="12">
               <v-text-field
-                v-model="item.institution"
+                v-model="institution"
                 label="Instituição ou plataforma"
                 hint="Ex: Alura, SENAI, Udemy, Youtube..."
                 required
                 variant="underlined"
                 color="green"
+                :error-messages="errors['item.institution']"
               ></v-text-field>
             </v-col>
             <v-col cols="12">
               <v-text-field
-                v-model="item.description"
+                v-model="description"
                 label="Descrição"
                 required
                 variant="underlined"
                 hint="Ex: Curso de marketing digital, Curso de design..."
                 color="green"
+                :error-messages="errors['item.description']"
               ></v-text-field>
             </v-col>
             <v-col
               ><v-text-field
-                v-model="item.workload"
+                v-model="workload"
                 label="Carga horária"
                 required
                 variant="underlined"
                 hint="Ex: 60 horas"
                 color="green"
+                :error-messages="errors['item.workload']"
               ></v-text-field>
             </v-col>
           </v-row>
