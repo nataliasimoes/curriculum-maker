@@ -89,13 +89,11 @@ export const useResumeStore = defineStore("resume", () => {
         image = await pdfDoc.embedJpg(resumeData.image);
       }
 
-      // 🖼️ Definir tamanho fixo para a imagem
-      const imageWidth = 110; // Largura fixa da imagem
-      const imageHeight = 120; // Altura fixa para manter proporção
+      const imageWidth = 110;
+      const imageHeight = 120;
 
-      // 📍 Ajustar a posição para ficar ao lado do título
-      const imageX = page.getWidth() - imageWidth - margin; // Alinha à direita
-      const imageY = y - imageHeight + 10; // Mantém na altura do título
+      const imageX = page.getWidth() - imageWidth - margin;
+      const imageY = y - imageHeight + 10;
 
       page.drawImage(image, {
         x: imageX,
@@ -103,14 +101,12 @@ export const useResumeStore = defineStore("resume", () => {
         width: imageWidth,
         height: imageHeight,
       });
-      // Ajusta a posição do próximo conteúdo
     }
 
     checkForNewPage(30);
     addText(resumeData.name, margin, y, 24, boldFont, rgb(0, 0, 0), maxWidth);
     y -= 30;
 
-    // Adiciona informações de contato
     checkForNewPage(20);
     addText(
       `Idade: ${resumeData.age}`,
@@ -159,19 +155,16 @@ export const useResumeStore = defineStore("resume", () => {
     );
     y -= 30;
 
-    // Adiciona a linha divisória
     checkForNewPage(20);
     addLine(y);
     y -= 20;
 
-    // Adiciona a seção "Resumo"
     checkForNewPage(30);
     addText("Sobre mim", margin, y, 18, boldFont, rgb(0, 0, 0), maxWidth);
     y -= 30;
 
-    // Calcula a altura do texto do resumo
     const summaryHeight = heightOfText(resumeData.summary, fontSize, maxWidth);
-    checkForNewPage(summaryHeight); // Verifica se há espaço para o resumo
+    checkForNewPage(summaryHeight);
 
     addText(
       resumeData.summary,
@@ -224,7 +217,6 @@ export const useResumeStore = defineStore("resume", () => {
       y -= 30;
     });
 
-    // Adiciona a linha divisória
     checkForNewPage(20);
     addLine(y);
     y -= 20;

@@ -99,16 +99,12 @@ const onSubmit = handleSubmit((values) => {
 const handleFileUpload = async () => {
   const file = image.value; // Obtém o arquivo selecionado
 
-  console.log("Arquivo recebido:", file);
-
   if (file && ["image/png", "image/jpeg"].includes(file.type)) {
     const arrayBuffer = await file.arrayBuffer(); // Converte o arquivo para ArrayBuffer
     const uint8Array = new Uint8Array(arrayBuffer); // Converte para Uint8Array
     resumeData.value.image = uint8Array; // Atualiza o resumeData com a imagem
-    console.log("Imagem carregada com sucesso!");
   } else {
     resumeData.value.image = null; // Remove a imagem se o arquivo for inválido
-    console.warn("Arquivo inválido. Selecione uma imagem PNG ou JPEG.");
   }
 };
 </script>
