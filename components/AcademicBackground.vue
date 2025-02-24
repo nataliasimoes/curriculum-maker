@@ -6,10 +6,10 @@ import { toTypedSchema } from "@vee-validate/zod";
 const schema = toTypedSchema(
   z.object({
     item: z.object({
-      institution: z.string(),
-      description: z.string(),
+      institution: z.string({ required_error: "Obrigatório" }),
+      description: z.string({ required_error: "Obrigatório" }),
       startYear: z
-        .string()
+        .string({ required_error: "Obrigatório" })
         .min(4, "Digite um ano válido")
         .max(4, "Digite um ano válido"),
       endYear: z

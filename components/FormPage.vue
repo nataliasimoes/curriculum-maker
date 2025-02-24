@@ -49,13 +49,7 @@ watch(age, (newValue) => {
   age.value = newValue ? Number(newValue) : null;
 });
 
-name.value = "Francisca Natália Simões de Araújo";
 age.value = 16;
-email.value = "natalia.simoes.dev@gmail.com";
-phone.value = "84998998012";
-address.value = "Rua José Valentim de Melo, 578";
-summary.value =
-  "Sou um profissional comprometido, dedicado e sempre focado na segurança e no cumprimento das normas. Tenho facilidade para trabalhar em equipe, me adapto bem a diferentes condições de trabalho e estou sempre disposto a aprender e evoluir. Procuro contribuir para a eficiência das operações.";
 
 const resumeData = ref({
   name: name.value,
