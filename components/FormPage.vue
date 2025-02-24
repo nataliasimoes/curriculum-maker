@@ -86,19 +86,27 @@ watchEffect(() => {
 const resumeStore = useResumeStore();
 
 const onSubmit = handleSubmit((values) => {
-  console.log(values);
   resumeStore.generateResumePDF(resumeData.value);
 });
 
+const isComplete = computed(() => {
+  return (
+    backgrounds.value.length > 0 &&
+    qualifications.value.length > 0 &&
+    skills.value.length > 0 &&
+    experiences.value.length > 0
+  );
+});
+
 const handleFileUpload = async () => {
-  const file = image.value; // Obtém o arquivo selecionado
+  const file = image.value;
 
   if (file && ["image/png", "image/jpeg"].includes(file.type)) {
-    const arrayBuffer = await file.arrayBuffer(); // Converte o arquivo para ArrayBuffer
-    const uint8Array = new Uint8Array(arrayBuffer); // Converte para Uint8Array
-    resumeData.value.image = uint8Array; // Atualiza o resumeData com a imagem
+    const arrayBuffer = await file.arrayBuffer();
+    const uint8Array = new Uint8Array(arrayBuffer);
+    resumeData.value.image = uint8Array;
   } else {
-    resumeData.value.image = null; // Remove a imagem se o arquivo for inválido
+    resumeData.value.image = null;
   }
 };
 </script>
@@ -344,7 +352,9 @@ const handleFileUpload = async () => {
       </v-row>
       <v-row class="mt-5">
         <v-col cols="12">
-          <v-btn color="green" block type="submit">Gerar currículo</v-btn>
+          <v-btn color="green" block type="submit" :disabled="!isComplete"
+            >Gerar currículo</v-btn
+          >
         </v-col>
       </v-row>
     </v-form>
