@@ -123,7 +123,8 @@ const handleFileUpload = async () => {
         <v-col cols="12" sm="12" md="7">
           <v-text-field
             label="Nome"
-            variant="underlined"
+            variant="solo"
+            density="comfortable"
             color="green"
             v-model="name"
             :error-messages="errors.name"
@@ -134,7 +135,8 @@ const handleFileUpload = async () => {
             accept="image/png, image/jpeg"
             label="Avatar (Opcional)"
             placeholder="Pick an avatar"
-            variant="underlined"
+            variant="solo"
+            density="comfortable"
             v-model="image"
             @change="handleFileUpload"
             prepend-icon=""
@@ -147,7 +149,8 @@ const handleFileUpload = async () => {
         <v-col cols="12" md="3">
           <v-text-field
             label="Idade"
-            variant="underlined"
+            variant="solo"
+            density="comfortable"
             type="number"
             color="green"
             v-model="age"
@@ -157,7 +160,8 @@ const handleFileUpload = async () => {
         <v-col cols="12" md="9">
           <v-text-field
             label="Email"
-            variant="underlined"
+            variant="solo"
+            density="comfortable"
             type="email"
             color="green"
             v-model="email"
@@ -167,7 +171,8 @@ const handleFileUpload = async () => {
         <v-col cols="12">
           <v-text-field
             label="Telefone"
-            variant="underlined"
+            variant="solo"
+            density="comfortable"
             color="green"
             v-model="phone"
             :error-messages="errors.phone"
@@ -176,7 +181,8 @@ const handleFileUpload = async () => {
         <v-col cols="12">
           <v-text-field
             label="Endereço"
-            variant="underlined"
+            variant="solo"
+            density="comfortable"
             color="green"
             v-model="address"
             :error-messages="errors.address"
@@ -185,7 +191,8 @@ const handleFileUpload = async () => {
         <v-col cols="12">
           <v-textarea
             label="Sobre você"
-            variant="underlined"
+            variant="solo"
+            density="comfortable"
             hint="Descreva brevemente quem você é, suas principais habilidades e experiências profissionais."
             persistent-hint
             color="green"
