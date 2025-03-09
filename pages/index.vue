@@ -44,7 +44,7 @@ definePageMeta({
     </v-row>
     <v-row class="text-center">
       <v-col cols="12">
-        <span class="inter-font-mini"> © 2024 Natália Simões | Credits </span>
+        <span class="inter-font-mini"> © 2025 Natália Simões | Credits </span>
       </v-col>
     </v-row>
   </v-container>

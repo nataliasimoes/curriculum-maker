@@ -1,13 +1,14 @@
 <template>
   <div class="select-none explode text-green text-h6">
-    <!-- <span>P</span>
-    <span>a</span>
+    <span>P</span>
     <span>r</span>
-    <span>a</span>
-    <span>b</span>
-    <span>é</span>
-    <span>n</span>
-    <span>s</span> -->
+    <span>o</span>
+    <span>f</span>
+    <span>i</span>
+    <span>s</span>
+    <span>s</span>
+    <span>i</span>
+    <span>o</span>
   </div>
 </template>
 
