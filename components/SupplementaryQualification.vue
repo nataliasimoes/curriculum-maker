@@ -6,9 +6,9 @@ import { toTypedSchema } from "@vee-validate/zod";
 const schema = toTypedSchema(
   z.object({
     item: z.object({
-      institution: z.string({ required_error: "Obrigatório" }),
-      description: z.string({ required_error: "Obrigatório" }),
-      workload: z.string({ required_error: "Obrigatório" }),
+      institution: z.string(),
+      description: z.string(),
+      workload: z.string(),
     }),
   })
 );

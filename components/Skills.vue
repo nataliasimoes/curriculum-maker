@@ -8,6 +8,9 @@ const item = ref<any>({
 });
 
 function addItem() {
+  if (!item.value.skill) {
+    return;
+  }
   academicStore.addSkill(item.value);
   item.value = {
     skill: "",

@@ -5,30 +5,21 @@ import { toTypedSchema } from "@vee-validate/zod";
 
 const schema = toTypedSchema(
   z.object({
-    name: z.string().min(1, "O nome é obrigatório"),
-    age: z.number().min(16, "Idade inválida").max(100, "Idade inválida"),
-    email: z.string().email("E-mail inválido"),
-    phone: z.string().min(11, "Telefone inválido"),
-    address: z.string().min(1, "O endereço é obrigatório"),
-    summary: z
-      .string()
-      .min(1, "O resumo é obrigatório")
-      .max(350, "Máximo de 350 caracteres"),
+    name: z.string().min(1),
+    age: z.number().min(16).max(100),
+    email: z.string().email(),
+    phone: z.string().min(11),
+    address: z.string().min(1),
+    summary: z.string().min(1).max(350),
     image: z
       .instanceof(File)
-      .refine(
-        (file) => file.size <= 5 * 1024 * 1024,
-        "A imagem deve ter no máximo 5MB"
-      )
-      .refine(
-        (file) => file.type === "image/png" || file.type === "image/jpeg",
-        "A imagem deve ser PNG ou JPG"
-      )
+      .refine((file) => file.size <= 5 * 1024 * 1024)
+      .refine((file) => file.type === "image/png" || file.type === "image/jpeg")
       .optional(),
   })
 );
 
-const { handleSubmit, errors } = useForm({
+const { handleSubmit, errors, setErrors } = useForm({
   validationSchema: schema,
 });
 
@@ -85,7 +76,16 @@ watchEffect(() => {
 
 const resumeStore = useResumeStore();
 
-const onSubmit = handleSubmit((values) => {
+const onSubmit = handleSubmit(async (values) => {
+  const { valid, errors } = await schema.validate(values, {
+    abortEarly: false,
+  });
+
+  if (!valid) {
+    setErrors(errors);
+  } else {
+    console.log("Formulário enviado:", values);
+  }
   resumeStore.generateResumePDF(resumeData.value);
 });
 
@@ -113,7 +113,7 @@ const handleFileUpload = async () => {
 
 <template>
   <div>
-    <v-form @submit.prevent="onSubmit">
+    <v-form @submit.prevent="onSubmit" :validation-schema="schema">
       <v-row>
         <v-col cols="12">
           <h4>Dados Gerais</h4>
@@ -359,9 +359,7 @@ const handleFileUpload = async () => {
       </v-row>
       <v-row class="mt-5">
         <v-col cols="12">
-          <v-btn color="green" block type="submit" :disabled="!isComplete"
-            >Gerar currículo</v-btn
-          >
+          <v-btn color="green" block type="submit">Gerar currículo</v-btn>
         </v-col>
       </v-row>
     </v-form>

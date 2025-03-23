@@ -11,11 +11,14 @@
   },
   "dependencies": {
     "@nuxtjs/google-fonts": "^3.2.0",
+    "@nuxtjs/i18n": "^9.3.3",
     "@pinia/nuxt": "^0.9.0",
+    "@vee-validate/i18n": "^4.15.0",
     "@vee-validate/nuxt": "^4.15.0",
     "@vee-validate/zod": "^4.15.0",
     "downloadjs": "^1.4.7",
     "nuxt": "^3.14.1592",
+    "nuxt-zod-i18n": "^1.11.5",
     "pdf-lib": "^1.17.1",
     "pinia": "^2.3.0",
     "vee-validate": "^4.15.0",
@@ -23,7 +26,8 @@
     "vue-router": "latest",
     "vuetify": "^3.7.5",
     "vuetify-nuxt-module": "^0.18.3",
-    "zod": "^3.24.2"
+    "zod": "^3.24.2",
+    "zod-i18n-map": "^2.27.0"
   },
   "devDependencies": {
     "@vueuse/core": "^12.7.0",
