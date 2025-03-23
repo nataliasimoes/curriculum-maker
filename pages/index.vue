@@ -16,10 +16,10 @@ definePageMeta({
         <v-row>
           <v-col cols="12" xs="12" md="9">
             <span class="inter-font responsive-text">
-              Crie seu currículo de forma rápida e sem complicação! Preencha o
-              formulário com suas informações e baixe um PDF pronto e formatado.
-              Seus dados não são armazenados, garantindo total privacidade e
-              segurança.
+              Precisa de um currículo rápido e sem dor de cabeça? É só preencher
+              o formulário com suas informações e baixá-lo em PDF prontinho e
+              formatado para você. Ah, e pode ficar tranquilo: seus dados não
+              ficam armazenados, garantindo total privacidade e segurança!
             </span>
           </v-col>
         </v-row>
@@ -59,7 +59,7 @@ definePageMeta({
 .inter-font {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 200;
+  font-weight: 300;
   font-style: normal;
 }
 

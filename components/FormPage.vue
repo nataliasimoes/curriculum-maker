@@ -1,26 +1,9 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
-import { z } from "zod";
 import { toTypedSchema } from "@vee-validate/zod";
 
-const schema = toTypedSchema(
-  z.object({
-    name: z.string().min(1),
-    age: z.number().min(16).max(100),
-    email: z.string().email(),
-    phone: z.string().min(11),
-    address: z.string().min(1),
-    summary: z.string().min(1).max(350),
-    image: z
-      .instanceof(File)
-      .refine((file) => file.size <= 5 * 1024 * 1024)
-      .refine((file) => file.type === "image/png" || file.type === "image/jpeg")
-      .optional(),
-  })
-);
-
 const { handleSubmit, errors, setErrors } = useForm({
-  validationSchema: schema,
+  validationSchema: toTypedSchema(generalDataSchema),
 });
 
 const curriculumStore = useCurriculumStore();
@@ -77,15 +60,6 @@ watchEffect(() => {
 const resumeStore = useResumeStore();
 
 const onSubmit = handleSubmit(async (values) => {
-  const { valid, errors } = await schema.validate(values, {
-    abortEarly: false,
-  });
-
-  if (!valid) {
-    setErrors(errors);
-  } else {
-    console.log("Formulário enviado:", values);
-  }
   resumeStore.generateResumePDF(resumeData.value);
 });
 
@@ -113,7 +87,7 @@ const handleFileUpload = async () => {
 
 <template>
   <div>
-    <v-form @submit.prevent="onSubmit" :validation-schema="schema">
+    <v-form @submit.prevent="onSubmit">
       <v-row>
         <v-col cols="12">
           <h4>Dados Gerais</h4>

@@ -1,20 +1,9 @@
 <script lang="ts" setup>
 import { useForm } from "vee-validate";
-import { z } from "zod";
 import { toTypedSchema } from "@vee-validate/zod";
 
-const schema = toTypedSchema(
-  z.object({
-    item: z.object({
-      institution: z.string(),
-      description: z.string(),
-      workload: z.string(),
-    }),
-  })
-);
-
 const { handleSubmit, errors } = useForm({
-  validationSchema: schema,
+  validationSchema: toTypedSchema(qualificationSchema),
 });
 
 const { value: institution } = useField<string>("item.institution");

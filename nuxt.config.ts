@@ -13,7 +13,13 @@ export default defineNuxtConfig({
     "@vee-validate/nuxt",
   ],
   imports: {
-    dirs: ["store", "services"],
+    dirs: ["store", "services", "@types"],
+    presets: [
+      {
+        from: "zod",
+        imports: ["z"],
+      },
+    ],
   },
   googleFonts: {
     families: {
