@@ -2,14 +2,20 @@
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 
-const { handleSubmit, errors, setErrors } = useForm({
+const { handleSubmit, errors } = useForm({
   validationSchema: toTypedSchema(generalDataSchema),
 });
 
 const curriculumStore = useCurriculumStore();
 
-const { userLanguages, backgrounds, qualifications, skills, experiences } =
-  storeToRefs(curriculumStore);
+const {
+  userLanguages,
+  backgrounds,
+  qualifications,
+  skills,
+  experiences,
+  trySubmit,
+} = storeToRefs(curriculumStore);
 
 const { value: name } = useField<string>("name");
 const { value: age } = useField<number>("age");
@@ -18,6 +24,7 @@ const { value: phone } = useField<string>("phone");
 const { value: address } = useField<string>("address");
 const { value: summary } = useField<string>("summary");
 const { value: image } = useField<File>("image");
+
 
 watch(age, (newValue) => {
   age.value = newValue ? Number(newValue) : null;
@@ -59,18 +66,21 @@ watchEffect(() => {
 
 const resumeStore = useResumeStore();
 
-const onSubmit = handleSubmit(async (values) => {
-  resumeStore.generateResumePDF(resumeData.value);
-});
+const onSubmit = (event: Event) => {
+  if (
+    errors.value ||
+    (backgrounds.value.length > 0 &&
+      qualifications.value.length > 0 &&
+      skills.value.length > 0 &&
+      experiences.value.length > 0)
+  ) {
+    trySubmit.value = true;
+  }
 
-const isComplete = computed(() => {
-  return (
-    backgrounds.value.length > 0 &&
-    qualifications.value.length > 0 &&
-    skills.value.length > 0 &&
-    experiences.value.length > 0
-  );
-});
+  handleSubmit(async (values) => {
+    resumeStore.generateResumePDF(resumeData.value);
+  })(event);
+};
 
 const handleFileUpload = async () => {
   const file = image.value;

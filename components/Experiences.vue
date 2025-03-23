@@ -11,6 +11,7 @@ const { value: itemFunction } = useField<string>("item.function");
 const { value: period } = useField<string>("item.period");
 
 const academicStore = useCurriculumStore();
+const { experiences, trySubmit } = storeToRefs(academicStore);
 
 const dialogVisible = ref(false);
 
@@ -43,6 +44,11 @@ const addItem = handleSubmit((values) => {
         class="btn-green-text"
         @click="dialogVisible = true"
       ></v-btn>
+      <span
+        class="text-center text-caption text-red-darken-4"
+        v-if="!experiences.length && trySubmit"
+        >Necessário adicionar ao menos uma experiência</span
+      >
     </template>
 
     <template v-slot:default="{ isActive }">

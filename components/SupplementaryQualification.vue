@@ -11,6 +11,7 @@ const { value: description } = useField<string>("item.description");
 const { value: workload } = useField<string>("item.workload");
 
 const academicStore = useCurriculumStore();
+const { qualifications, trySubmit } = storeToRefs(academicStore);
 const dialogVisible = ref(false);
 
 const emit = defineEmits(["add"]);
@@ -46,6 +47,11 @@ const addItem = handleSubmit((values) => {
         class="btn-green-text"
         @click="dialogVisible = true"
       ></v-btn>
+      <span
+        class="text-center text-caption text-red-darken-4"
+        v-if="!qualifications.length && trySubmit"
+        >Necessário adicionar ao menos uma capacitação complementar</span
+      >
     </template>
 
     <template v-slot:default="{ isActive }">

@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     "@nuxtjs/google-fonts",
     "@vueuse/nuxt",
     "@vee-validate/nuxt",
+    "nuxt-snackbar",
   ],
   imports: {
     dirs: ["store", "services", "@types"],
@@ -37,5 +38,10 @@ export default defineNuxtConfig({
       "pt-BR": "pt-BR",
     },
     useModuleLocale: true,
+  },
+  snackbar: {
+    top: true,
+    right: true,
+    duration: 5000,
   },
 });

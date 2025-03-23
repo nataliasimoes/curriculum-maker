@@ -56,6 +56,8 @@ export const useCurriculumStore = defineStore("curriculum", () => {
     experiences.value.splice(index, 1);
   }
 
+  const trySubmit = ref(false);
+
   return {
     backgrounds,
     addAcademicBackground,
@@ -72,5 +74,6 @@ export const useCurriculumStore = defineStore("curriculum", () => {
     experiences,
     addExperience,
     removeExperience,
+    trySubmit,
   };
 });

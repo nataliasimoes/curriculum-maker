@@ -7,6 +7,7 @@ const title = useTitle("Currículos");
 <template>
   <NuxtLayout>
     <NuxtPage />
+    <NuxtSnackbar />
   </NuxtLayout>
 </template>
 

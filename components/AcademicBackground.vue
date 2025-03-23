@@ -12,6 +12,7 @@ const { value: startYear } = useField<string>("item.startYear");
 const { value: endYear } = useField<string | undefined>("item.endYear");
 
 const academicStore = useCurriculumStore();
+const { backgrounds, trySubmit } = storeToRefs(academicStore);
 
 const dialogVisible = ref(false);
 
@@ -48,6 +49,11 @@ const addItem = handleSubmit((values) => {
         @click="dialogVisible = true"
         class="btn-green-text"
       ></v-btn>
+      <span
+        class="text-center text-caption text-red-darken-4"
+        v-if="!backgrounds.length && trySubmit"
+        >Necessário adicionar ao menos formação acadêmica</span
+      >
     </template>
 
     <template v-slot:default="{ isActive }">

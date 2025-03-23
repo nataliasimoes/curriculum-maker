@@ -1,3 +1,5 @@
+import { boolean } from "zod";
+
 export const generalDataSchema = z.object({
   name: z.string().min(1),
   age: z.number().min(16).max(100),
