@@ -17,6 +17,16 @@ export const useResumeStore = defineStore("resume", () => {
     skills: Skill[];
     experiences: Experience[];
   }) => {
+    if (
+      !resumeData.experiences.length ||
+      !resumeData.skills.length ||
+      !resumeData.backgrounds.length ||
+      !resumeData.qualifications.length
+    ) {
+      console.log("Not complete");
+      return;
+    }
+
     const pdfDoc = await PDFDocument.create();
     let page = pdfDoc.addPage([595.28, 841.89]);
     const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);

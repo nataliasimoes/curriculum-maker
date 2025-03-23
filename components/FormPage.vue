@@ -25,7 +25,6 @@ const { value: address } = useField<string>("address");
 const { value: summary } = useField<string>("summary");
 const { value: image } = useField<File>("image");
 
-
 watch(age, (newValue) => {
   age.value = newValue ? Number(newValue) : null;
 });
@@ -66,6 +65,23 @@ watchEffect(() => {
 
 const resumeStore = useResumeStore();
 
+const snackbar = useSnackbar();
+const isComplete = ref(true);
+
+watch(
+  () => isComplete.value,
+  (state) => {
+    console.log(state);
+    if (!state) {
+      snackbar.add({
+        type: "error",
+        text: "É preciso preencher todos os campos obrigatórios",
+      });
+      isComplete.value = true;
+    }
+  }
+);
+
 const onSubmit = (event: Event) => {
   if (
     errors.value ||
@@ -75,6 +91,7 @@ const onSubmit = (event: Event) => {
       experiences.value.length > 0)
   ) {
     trySubmit.value = true;
+    isComplete.value = false;
   }
 
   handleSubmit(async (values) => {
