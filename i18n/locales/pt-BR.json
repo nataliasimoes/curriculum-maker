@@ -19,7 +19,7 @@
         "url": "{validation} Inválido",
         "uuid": "{validation} Inválido"
       },
-      "invalid_type": "Esperado {expected}, recebido {received}",
+      "invalid_type": "Digite um valor válido",
       "invalid_type_received_undefined": "Campo obrigatório",
       "invalid_union": "Entrada inválida",
       "invalid_union_discriminator": "Valor de discriminador inválido. Esperado {options} para rever",

@@ -58,10 +58,7 @@ const addItem = handleSubmit((values) => {
 
     <template v-slot:default="{ isActive }">
       <v-form>
-        <v-card
-          prepend-icon="mdi-school"
-          title="Formação Acadêmica"
-        >
+        <v-card prepend-icon="mdi-school" title="Formação Acadêmica">
           <v-card-text>
             <v-row>
               <v-col cols="12">
@@ -91,6 +88,7 @@ const addItem = handleSubmit((values) => {
                   v-model="startYear"
                   label="Ano de início"
                   required
+                  type="number"
                   variant="underlined"
                   color="green"
                   :error-messages="errors['item.startYear']"
@@ -101,6 +99,7 @@ const addItem = handleSubmit((values) => {
                   v-model="endYear"
                   label="Ano de conclusão"
                   variant="underlined"
+                  type="number"
                   color="green"
                   :error-messages="errors['item.endYear']"
                 ></v-text-field
