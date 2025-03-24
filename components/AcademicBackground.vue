@@ -37,7 +37,7 @@ const addItem = handleSubmit((values) => {
 <template>
   <v-dialog
     transition="dialog-bottom-transition"
-    width="auto"
+    max-width="600"
     v-model="dialogVisible"
     persistent
   >
@@ -61,7 +61,6 @@ const addItem = handleSubmit((values) => {
         <v-card
           prepend-icon="mdi-school"
           title="Formação Acadêmica"
-          min-width="600"
         >
           <v-card-text>
             <v-row>

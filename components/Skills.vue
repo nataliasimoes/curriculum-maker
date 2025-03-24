@@ -23,7 +23,7 @@ function addItem() {
 <template>
   <v-dialog
     transition="dialog-bottom-transition"
-    width="auto"
+    max-width="600"
     v-model="dialogVisible"
     persistent
   >
@@ -44,7 +44,7 @@ function addItem() {
     </template>
 
     <template v-slot:default="{ isActive }">
-      <v-card prepend-icon="mdi-medal" title="Habilidade(s)" min-width="600">
+      <v-card prepend-icon="mdi-medal" title="Habilidade(s)" max-width="600">
         <v-card-text>
           <v-row>
             <v-col cols="12">

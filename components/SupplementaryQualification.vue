@@ -24,9 +24,9 @@ const addItem = handleSubmit((values) => {
   };
   academicStore.addQualifications(newItem);
 
-  institution.value = values.item.institution;
-  description.value = values.item.description;
-  workload.value = values.item.workload;
+  institution.value = "";
+  description.value = "";
+  workload.value = "";
 
   dialogVisible.value = false;
 });
@@ -35,7 +35,7 @@ const addItem = handleSubmit((values) => {
 <template>
   <v-dialog
     transition="dialog-bottom-transition"
-    width="auto"
+    max-width="600"
     v-model="dialogVisible"
     persistent
   >
@@ -58,7 +58,7 @@ const addItem = handleSubmit((values) => {
       <v-card
         prepend-icon="mdi-school"
         title="Capacitação complementar"
-        min-width="600"
+        max-width="600"
       >
         <v-card-text>
           <v-row>

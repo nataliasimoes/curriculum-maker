@@ -29,8 +29,6 @@ watch(age, (newValue) => {
   age.value = newValue ? Number(newValue) : null;
 });
 
-age.value = 16;
-
 const resumeData = ref({
   name: name.value,
   image: image.value,
@@ -66,23 +64,23 @@ watchEffect(() => {
 const resumeStore = useResumeStore();
 
 const snackbar = useSnackbar();
-const isComplete = ref(true);
+const showSnackBar = ref(false);
 
 watch(
-  () => isComplete.value,
+  () => showSnackBar.value,
   (state) => {
-    console.log(state);
-    if (!state) {
+    if (state) {
       snackbar.add({
         type: "error",
         text: "É preciso preencher todos os campos obrigatórios",
       });
-      isComplete.value = true;
+      showSnackBar.value = true;
     }
   }
 );
 
 const onSubmit = (event: Event) => {
+  showSnackBar.value = false;
   if (
     errors.value ||
     (backgrounds.value.length > 0 &&
@@ -91,7 +89,7 @@ const onSubmit = (event: Event) => {
       experiences.value.length > 0)
   ) {
     trySubmit.value = true;
-    isComplete.value = false;
+    showSnackBar.value = true;
   }
 
   handleSubmit(async (values) => {
@@ -134,8 +132,8 @@ const handleFileUpload = async () => {
         <v-col cols="12" sm="12" md="5">
           <v-file-input
             accept="image/png, image/jpeg"
-            label="Avatar (Opcional)"
-            placeholder="Pick an avatar"
+            label="Sua foto (Opcional)"
+            placeholder="Escolha uma foto"
             variant="solo"
             density="comfortable"
             v-model="image"
