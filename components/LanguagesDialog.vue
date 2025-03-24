@@ -40,7 +40,7 @@ function finished() {
 <template>
   <v-dialog
     transition="dialog-bottom-transition"
-    width="auto"
+    max-width="350"
     v-model="dialogVisible"
     persistent
   >
@@ -57,7 +57,7 @@ function finished() {
     </template>
 
     <template v-slot:default="{ isActive }">
-      <v-card prepend-icon="mdi-translate" title="Idiomas" min-width="350">
+      <v-card prepend-icon="mdi-translate" title="Idiomas">
         <v-card-text>
           <v-list>
             <v-list-item
