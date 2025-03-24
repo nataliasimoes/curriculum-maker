@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useTitle } from "@vueuse/core";
 
-const title = useTitle("Currículos");
+const title = useTitle("Profissio");
 </script>
 
 <template>
@@ -18,6 +18,6 @@ const title = useTitle("Currículos");
 }
 
 ::v-deep(.btn-green-text .v-btn__content) {
-  color: #4caf50; /* Muda a cor do texto */
+  color: #4caf50;
 }
 </style>
