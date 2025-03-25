@@ -1,75 +1,66 @@
-# Nuxt Minimal Starter
+# Profissio - Gerador de Currículo em PDF
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+![Profissio tela](https://github.com/user-attachments/assets/bda81314-1f86-455f-bb65-14f72685e819)
 
-## Setup
+Profissio é uma aplicação web que permite criar currículos profissionais em PDF de forma rápida e simples. 
 
-Make sure to install dependencies:
+## 🚀 Tecnologias Utilizadas
+
+- [Nuxt 3](https://nuxt.com/) - Framework Vue.js para aplicações universais
+- [Vuetify](https://vuetifyjs.com/) - Framework de UI Material Design para Vue
+- [Pinia](https://pinia.vuejs.org/) - Gerenciador de estados
+- [PDF Lib](https://pdf-lib.js.org/) - Gerar o PDF
+
+![Idiomas](https://github.com/user-attachments/assets/ab3b81b3-6e81-4bbe-bc3b-208974befffa)
+
+
+## ✨ Recursos
+
+- Interface intuitiva e fácil de usar
+- Formulário completo com todas as seções de um currículo profissional
+- Geração instantânea de PDF
+- 100% gratuito e open source
+
+## 📌 Como Usar
+
+1. Acesse o Profissio (https://profissio.vercel.app/)
+2. Preencha todas as seções do formulário com suas informações
+3. Revise os dados inseridos
+4. Clique no botão "Gerar Currículo"
+5. Faça o download do seu currículo pronto
+
+## 🤝 Contribuição
+
+Contribuições são bem-vindas! Sinta-se à vontade para:
+
+- Reportar bugs
+- Sugerir melhorias
+- Enviar pull requests
+
+## Instalação
+
+1. Clone o repositório:
+   
+```bash
+git clone https://github.com/nataliasimoes/curriculum-maker/
+```
+
+2. Instale as dependências:
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
+# ou
 yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+3. Inicie o servidor de desenvolvimento:
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
+# ou
 yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## 📄 Licença
+  
+Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
